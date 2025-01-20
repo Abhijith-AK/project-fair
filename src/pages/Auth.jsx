@@ -1,9 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import loginImg from '../assets/loginImg.png'
 import { FloatingLabel, Form } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
 const Auth = ({ insideRegister }) => {
+  const [inputData, setInputData] = useState({
+    username: "", email: "", password: ""
+  })
+  console.log(inputData);
+
+  const handleRegister = (e) => {
+    e.preventDefault()
+    if (inputData.email && inputData.username && inputData.password) {
+      alert("make api call")
+    } else {
+      alert("Please fill the form!!")
+    }
+  }
+
   return (
     <div style={{ minHeight: "100vh", width: "100%" }}
       className='d-flex justify-content-center align-items-center'>
@@ -27,7 +41,7 @@ const Auth = ({ insideRegister }) => {
                     label="Username"
                     className="mb-3"
                   >
-                    <Form.Control type="text" placeholder="Username" />
+                    <Form.Control onChange={e => setInputData({ ...inputData, username: e.target.value })} type="text" placeholder="Username" />
                   </FloatingLabel>
                 }
                 <FloatingLabel
@@ -35,15 +49,15 @@ const Auth = ({ insideRegister }) => {
                   label="Email address"
                   className="mb-3"
                 >
-                  <Form.Control type="email" placeholder="name@example.com" />
+                  <Form.Control onChange={e => setInputData({ ...inputData, email: e.target.value })} type="email" placeholder="name@example.com" />
                 </FloatingLabel>
                 <FloatingLabel controlId="floatingPassword" label="Password">
-                  <Form.Control type="password" placeholder="Password" />
+                  <Form.Control onChange={e => setInputData({ ...inputData, password: e.target.value })} type="password" placeholder="Password" />
                 </FloatingLabel>
                 {
                   insideRegister ?
                     <div className="mt-3">
-                      <button className="btn btn-primary mb-2">Register</button>
+                      <button onClick={handleRegister} className="btn btn-primary mb-2">Register</button>
                       <p>Already a user? Please click here to <Link to={'/Login'}>Login</Link></p>
                     </div>
                     :

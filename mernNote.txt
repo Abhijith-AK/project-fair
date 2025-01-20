@@ -1,0 +1,28 @@
+MONGODB - DATABASE
+--------------------
+
+Database used to store and manage data permenantly (fireBase, mySQL, SQL, MSAcess, MongoDB, Oracle...).
+
+MongoDB is a NoSQL Database, data stored as JSON documents it's stored in memory as BSON data
+    ({"key":value}), To store multiple JSON documents is known as Collection.
+
+Difference b/w SQL & MongoDB
+    SQL                         MongoDB
+~ Relational SQL DBMS        ~ Document oriented NoSQL DBMS
+~ Data stored in Table,      ~ Data stored in Collection,
+    every table must have           as JSON document
+    rows and fixed columns
+~ uses fixed schema          ~ uses dynamic schema
+~ Support rich set of data   ~ Limited set of data types
+  types
+~ Uses in Traditional        ~ used in big data and real time app
+  buisness app
+~ Optimised for complex      ~ Optimised for scalability & perfomance 
+  join and transaction
+
+MongoDB in the following environments:-
+    MongoDB Atlas: The fully managed service for MongoDB deployments in the cloud
+    MongoDB Enterprise: The subscription-based, self-managed version of MongoDB
+    MongoDB Community: The source-available, free-to-use, and self-managed version of MongoDB
+
+MongoDB shell / mongosh is terminal used to write mongodb codes
