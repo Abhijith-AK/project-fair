@@ -26,3 +26,16 @@ MongoDB in the following environments:-
     MongoDB Community: The source-available, free-to-use, and self-managed version of MongoDB
 
 MongoDB shell / mongosh is terminal used to write mongodb codes
+Collection used to store JSON documents, to name a Collection use only small letters and it should be plural format
+MongoDB generate a unique value to identify each collection using _id key and its value is a hexadecimal value
+
+CRUD Operations performed in MongoDB
+  To get/read a single document from MongoDB collection: use findOne({key: value})
+  find() to get/read all documents from collection
+  insertOne({key:value}) to insert single document to collection
+  insertMany([{key:value},{key:value},...]) to insert multiple documents to collection  
+  countDocument() to get total count of documents in a collection 
+  limit(count) to limit documents while getting from a collection
+  skip(count) to skip documents while getting from a collection
+  sort({key:1/-1}) to sort documents while getting from a collection
+  find({key:{$gt/$gte/$lt/$lte/$eq/$neq/$exists}})
