@@ -38,4 +38,113 @@ CRUD Operations performed in MongoDB
   limit(count) to limit documents while getting from a collection
   skip(count) to skip documents while getting from a collection
   sort({key:1/-1}) to sort documents while getting from a collection
-  find({key:{$gt/$gte/$lt/$lte/$eq/$neq/$exists}})
+  find({key:{$gt/$gte/$lt/$lte/$eq/$neq/$exists/$regex/$expr}})
+  updateOne({key:value},{$set:{key:value}}) to update a single document to collection
+    we can update statements: $set, $inc, $push, $pull
+  deleteOne({key:value}) to delete a single document
+  deleteMany({key:value}) to delete multiple documents
+  
+Aggregation used to combine/joining two collection in mongodb
+  using $lookup:
+  {
+    $lookup:
+     {
+       from: <collection to join>,
+       localField: <field from the input documents>,
+       foreignField: <field from the documents of the "from" collection>,
+       as: <output array field>
+     }
+  }
+
+
+SERVER Side / BACKEND used to resolve client/frontend technologies
+-------------------------------------------------------------------
+
+NodeJS: provide a runtime environment for js outside the browser
+-----------------------------------------------------------------
+  Free Open Source Cross Platform runtime environment that lets us to create servers (used to resolve multiple client requests),
+  applications, command line tools and scripts
+  Features:
+    Extremely fast 
+    Highly scalable
+    Asyncronous functions
+  NodeJS Global objects:
+    Objects can be accessed throughout node app without importing it. eg: "process" objects
+  NodeJS Module system:
+    used to share data from one file to another using "CommonJSModule" system
+      require("package_name/file_path") to import data from one file/package to another
+      module.exports / exports keyword to export data from a file
+      Predefined/Built in modules in NodeJS
+        fs module - file system module, handle file system of a computer
+        http module - used to create http servers
+        https module - used to create https servers
+        events module - manage userdefined events
+        crypto module - secure data handle
+  Exwcution model: Event driven, non blocing I/O model, Optimised Asyncronous task
+  API Access: access to system level API (File system, network, process)
+  Working of NodeJS
+    used to resolve client requests and send response while working with single threaded
+      Non blocking
+      Asyncronous functions
+
+Express js: NodeJS Framework used for server creation 
+------------------------------------------------------
+  uses in client side applications, to create server with node js Features
+  Steps to create Express server for resolving client requests
+    create a server folder for server application
+    create package.json file inside server folder, use command: npm init -y
+    update package.json file "script" key value as the following object,
+      {"start":"node index.js"} and remove its test key and value
+    install packages needed to create node server app
+      express package used to create server - npm i express
+      cors package used to enable cross origin resource sharing - npm i cors
+      dotenv package used to load content .enc file into process object - npm i dotenv
+      mongoose package used to communicate between nodejs app and MongoDB
+    create .env file in server folder, which used to store environment variables of a project/app
+    create .gitignore file in server folder, which is used to store files/folders to be ignored while adding to git and add
+    "node_modules" and ".env".
+    create index.js file to define express server for resolving client request from browser
+      import express, dotenv and cors in index.js file using require
+      create express server using express package
+      use cors in our server app, to enable data sharing between different applications.
+      use express.json() in server app for parsing json data from client request
+      create a port for server app
+      run server app in specified port
+      run server using: node index.js
+      To resolve http request using express server:
+        expressServerName.httpRequestMethod("path",(request, response) => {
+          using response object share server response to client
+        })
+
+    how to set up path/ url for resolving client request in server
+      create routes folder in server folder and create a js file inside routes folder for defining path/route corresponding to client request
+      steps to define path in js file 
+        import express
+        create an object for express router class which is capable of setting up routes in server
+
+    To set up the controller for server app: used to define logic to resolve client request 
+      create a folder controllers in servers and create a js file inside it
+      export each controller logic from js file 
+      import controllers in router
+
+    To set up database connection from nodejs server
+      create a folder for defining db connection in server folder
+      inside db folder create js file to define connection steps
+        import mongoose
+        get db connection string from mongodb Atlas to js file
+        To connect with mongodb use mongoose.connect(connectionString)
+        import js file inside index.js
+    
+    to set model for communicating
+      create model folder 
+      create js file inside
+      create model using schema
+      export model
+
+
+
+MONGOOSE: NodeJS package for MongoDB Data Modeling
+---------------------------------------------------
+Mongoose is a ODM(Object Data Modelling) library for MongoDB, helps to create and manage mongodb documents
+install Mongoose in node js app: npm i mongoose
+schema: 

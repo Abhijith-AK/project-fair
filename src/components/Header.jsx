@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 const Header = ({ insideDashboard }) => {
   return (
-    <Navbar className="border rounded position-fixed w-100">
+    <Navbar className="border rounded position-fixed w-100 z-3">
       <Container>
         <Link to={'/'} style={{textDecoration: "none"}}>
           <Navbar.Brand style={{color: "white"}} className='fw-bolder'>

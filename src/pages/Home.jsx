@@ -1,10 +1,18 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import landingImg from '../assets/landingImg.png'
 import ProjectCard from '../components/ProjectCard'
 import { Card } from 'react-bootstrap'
 
 const Home = () => {
+    const navigate = useNavigate()
+    const handleProjects = () => {
+        if (sessionStorage.getItem("token")) {
+            navigate("/projects")
+        } else {
+            alert("Please login to get full Access!!!")
+        }
+    }
   return (
       <>
           <div style={{minHeight:'100vh'}} className="d-flex justify-content-center align-items-center rounded shadow w-100">
@@ -13,7 +21,12 @@ const Home = () => {
                       <div className="col-lg-6">
                           <h1 style={{ fontSize: '80px' }}><i className="fa-brands fa-docker me-3"></i>Project Fair</h1>
                           <p style={{ textAlign: 'justify' }}> One Stop Destination for all Software Development Projects. Where User can add and manage their projects. As well as access all projects available in our website... What are you waiting for!!! </p>
-                          <Link to={'/login'} className='btn btn-warning'>START TO EXPLORE</Link>
+                          {
+                              sessionStorage.getItem("token") ?
+                                  <Link to={'/dashboard'} className='btn btn-warning'>MANAGE YOUR PROJECTS</Link>
+                                  :
+                                  <Link to={'/login'} className='btn btn-warning'>START TO EXPLORE</Link>
+                          }
                       </div>
                       <div className="col-lg-6">
                           <img src={landingImg} alt="" className="img-fluid" />
@@ -30,7 +43,7 @@ const Home = () => {
                       </div>
                   </div>
               </marquee>
-              <button className="btn btn-link mt-5">
+              <button onClick={handleProjects} className="btn btn-link mt-5">
                   CLICK HERE TO VIEW MORE PROJECTS....
               </button>
           </div>
