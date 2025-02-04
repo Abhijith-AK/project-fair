@@ -1,9 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import uploadImg from '../assets/uploadImg.png'
+import { addProjectAPI } from '../services/allAPI';
+import { addProjectResponseContext } from '../contexts/ContextApi';
 
 const Add = () => {
+  const {addProjectResponse, setAddProjectResponse} = useContext(addProjectResponseContext)
   const [projectDetails, setProjectDetails] = useState({
     title: "", languages: "", overview: "", github: "", website: "", projectImg: ""
   })
@@ -20,6 +23,43 @@ const Add = () => {
     })
   };
   const handleShow = () => setShow(true);
+
+  const handleAddProject = async () => {
+    const {title, languages, overview, github, website, projectImg} = projectDetails
+    if (title && languages && overview && website && github && projectImg) {
+      // alert("proceed api call");
+      const reqBody = new FormData()
+      reqBody.append("title", title)
+      reqBody.append("languages", languages)
+      reqBody.append("overview", overview)
+      reqBody.append("website", website)
+      reqBody.append("github", github)
+      reqBody.append("projectImg", projectImg)
+      const token = sessionStorage.getItem('token')
+      if (token) {
+        const reqHeader = {
+          "Content-Type": "multipart/form-data",
+          "Authorization": `Bearer ${token}`
+        }
+        // make api call
+        try {
+          const result = await addProjectAPI(reqBody, reqHeader)
+          if (result.status == 200) {
+            alert("Project Added successfully")
+            setAddProjectResponse(result)
+            handleClose()
+          } else {
+            alert(result.response.data)
+          }
+        } catch (error) {
+          console.log(error);
+        }
+        setAddProjectResponse(result)
+      }
+    } else {
+      alert("Please fill the form completely!!")
+    }
+  }
 
   useEffect(() => {
     if (projectDetails.projectImg.type == "image/png" || projectDetails.projectImg.type == "image/jpg" || projectDetails.projectImg.type == "image/jpeg") {
@@ -81,7 +121,7 @@ const Add = () => {
           <Button variant="secondary" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="primary">Add</Button>
+          <Button onClick={handleAddProject} variant="primary">Add</Button>
         </Modal.Footer>
       </Modal>
     </>

@@ -1,11 +1,30 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import landingImg from '../assets/landingImg.png'
 import ProjectCard from '../components/ProjectCard'
 import { Card } from 'react-bootstrap'
+import { getHomeProjectAPI } from '../services/allAPI'
 
 const Home = () => {
+    const [allHomeProjects, setAllHomeProjects] = useState([])
+
     const navigate = useNavigate()
+
+    useEffect(() => {
+        getAllHomeProjects()
+    }, [])
+
+    const getAllHomeProjects = async () => {
+        try {
+            const result = await getHomeProjectAPI()
+            if (result.status == 200) {
+                setAllHomeProjects(result.data)            
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const handleProjects = () => {
         if (sessionStorage.getItem("token")) {
             navigate("/projects")
@@ -38,9 +57,13 @@ const Home = () => {
               <h1 className="mb-5">Explore Our Projects</h1>
               <marquee behavior="" direction="">
                   <div className="d-flex">
-                      <div className="me-5">
-                          <ProjectCard />
-                      </div>
+                      {
+                          allHomeProjects?.map(project => (
+                              <div className="me-5">
+                                  <ProjectCard displayData={project} />
+                              </div>     
+                          ))
+                     }
                   </div>
               </marquee>
               <button onClick={handleProjects} className="btn btn-link mt-5">

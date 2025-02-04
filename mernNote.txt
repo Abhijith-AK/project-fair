@@ -138,9 +138,19 @@ Express js: NodeJS Framework used for server creation
     to set model for communicating
       create model folder 
       create js file inside
+      import mongoose
       create model using schema
       export model
 
+    To set up the Authorization using middleware
+      create middleware folder
+      create js file inside
+
+    To hndle multipart/form request using Multer
+      create js file inside middleware folder
+      import multer
+      create a 'upload' folder in server for storing uploaded files.
+      define storage object in js file 
 
 
 MONGOOSE: NodeJS package for MongoDB Data Modeling
@@ -148,3 +158,22 @@ MONGOOSE: NodeJS package for MongoDB Data Modeling
 Mongoose is a ODM(Object Data Modelling) library for MongoDB, helps to create and manage mongodb documents
 install Mongoose in node js app: npm i mongoose
 schema: 
+
+
+Middleware:
+-------------
+Used to control request-response cycle in server. Before resolving the request server can perform and task(authorization, data formay changin etc..) using Middleware
+Middleware are function with 3 arguments, they are request, response, next. 
+  here 
+    request will give your client request, 
+    response object will give response from server,
+    next method used to control request
+Middleware can be 2 types:
+  Application specific middleware: middleware will active for all client request
+  Router specific middleware: middleware will active for only selected route/path
+
+ ------------------------------------------------------------
+| Multer: nodejs middleware for handling multipart/form data |
+ ------------------------------------------------------------
+ npm i Multer
+ multer can be used to define storage space for uploading file

@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { Card, Modal } from 'react-bootstrap'
+import SERVERURL from "../services/serverURL";
 
-const ProjectCard = () => {
+
+const ProjectCard = ({ displayData }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -9,11 +11,11 @@ const ProjectCard = () => {
   return (
     <>
       <Card className="btn shadow" onClick={handleShow}>
-        <Card.Img height={'200px'} variant="top" src="https://project-fair-server-june24.onrender.com/uploads/image-1730886279716-calculator.png" />
+        <Card.Img height={'200px'} variant="top" src={`${SERVERURL}/uploads/${displayData?.projectImg}`} />
         <Card.Body>
-          <Card.Title>Card Title</Card.Title> 
+          <Card.Title>{displayData?.title}</Card.Title>
         </Card.Body>
-      </Card> 
+      </Card>
 
       <Modal
         size='lg'
@@ -27,22 +29,22 @@ const ProjectCard = () => {
         <Modal.Body>
           <div className="row align-items-center">
             <div className="col-lg-6">
-              <img className='img-fluid' src="https://project-fair-server-june24.onrender.com/uploads/image-1730886279716-calculator.png" alt="" />
+              <img className='img-fluid' src={`${SERVERURL}/uploads/${displayData?.projectImg}`} alt="" />
             </div>
             <div className="col-lg-6">
-              <h3>Project Title</h3>
+              <h3>{displayData?.title}</h3>
               <h6 className="fw-bolder">
-                Languages used: <span className="text-danger">HTML,CSS</span>
+                Languages used: <span className="text-danger">{displayData?.languages}</span>
               </h6>
               <p style={{ textAlign: "justify" }}>
                 <span className='fw-bolder'>Project Overview: </span>
-                A simple calculator app for basic arithmetice operation built with HTML and JS
+                {displayData?.overview}
               </p>
             </div>
           </div>
           <div className="mt-2 float-start">
-            <a href="" target='_blank' className='btn btn-secondary'><i className="fa-brands fa-github"></i></a>
-            <a href="" target='_blank' className='btn btn-secondary ms-2'><i className="fa-solid fa-link"></i></a>
+            <a href={displayData?.github} target='_blank' className='btn btn-secondary'><i className="fa-brands fa-github"></i></a>
+            <a href={displayData?.website} target='_blank' className='btn btn-secondary ms-2'><i className="fa-solid fa-link"></i></a>
           </div>
         </Modal.Body>
       </Modal>

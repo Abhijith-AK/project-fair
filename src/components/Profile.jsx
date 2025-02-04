@@ -1,9 +1,22 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Collapse from 'react-bootstrap/Collapse';
 import profileImg from '../assets/profileImg.jpg'
 
 const Profile = () => {
+  const [preview, setPreview] = useState("")
+  const [existingProfile, setExistingProfile] = useState("")
+  const [userDetails, setUserDetails] = useState({
+    username: "", email: "", password: "", github: "", linkedin: "", profilepic: ""
+  });
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    setUserDetails({
+      ...userDetails,username:user.username,email:user.email,password:user.password,github:user.github,linkedin:user.linkedin
+    })
+    setExistingProfile(user.profilepic)
+  }, [open]);
 
   return (
     <>
