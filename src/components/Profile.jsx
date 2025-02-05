@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Collapse from 'react-bootstrap/Collapse';
 import profileImg from '../assets/profileImg.jpg'
 import SERVERURL from '../services/serverURL';
+import { updateUserAPI } from '../services/allAPI';
 
 const Profile = () => {
   const [preview, setPreview] = useState("")
@@ -27,6 +28,39 @@ const Profile = () => {
     }
   }, [userDetails.profilepic]);
 
+  const handleUpdateProfile = async () => {
+    const { username, email, password, github, linkedin, profilepic } = userDetails
+    if (github && linkedin) {
+      const reqBody = new FormData()
+      reqBody.append("username", username);
+      reqBody.append("email", email);
+      reqBody.append("password", password);
+      reqBody.append("github", github);
+      reqBody.append("linkedin", linkedin);
+      preview ? reqBody.append("profilepic", profilepic) : reqBody.append("profilepic", existingProfile);
+      const token = sessionStorage.getItem('token')
+      if (token) {
+        const reqHeader = {
+          "Content-Type": "multipart/form-data",
+          "Authorization": `Bearer ${token}`
+        }
+        // make api call
+        try {
+          const result = await updateUserAPI(reqBody, reqHeader);
+          if (result.status == 200) {
+            alert("User profile updated successfully")
+            sessionStorage.setItem("user", JSON.stringify(result.data))
+            setOpen(!open)
+          }
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    } else {
+      alert("Please fill the form completely");
+    }
+  }
+
   return (
     <>
       <div className="d-flex justify-content-evenly">
@@ -36,7 +70,7 @@ const Profile = () => {
       <Collapse in={open}>
         <div id="example-collapse-text" className='row container-fluid align-items-center justify-content-center shadow p-2 rounded'>
           <label className='text-center'>
-            <input onChange={e=>setUserDetails({...userDetails, profilepic: e.target.files[0]})} type="file" style={{ display: "none" }} />
+            <input onChange={e => setUserDetails({ ...userDetails, profilepic: e.target.files[0] })} type="file" style={{ display: "none" }} />
             {
               existingProfile == "" ?
                 <img height={'150px'} width={'150px'} className='rounded-circle' src={preview ? preview : profileImg} alt="" />
@@ -45,13 +79,13 @@ const Profile = () => {
             }
           </label>
           <div className="mb-2 w-100">
-            <input type="text" name="" id="" placeholder='USER GITHUB PROFILE LINK' className="form-control" />
+            <input value={userDetails.github} onChange={e => setUserDetails({ ...userDetails, github: e.target.value })} type="text" name="" id="" placeholder='USER GITHUB PROFILE LINK' className="form-control" />
           </div>
           <div className="mb-2 w-100">
-            <input type="text" name="" id="" placeholder='USER LINKEDIN PROFILE LINK' className="form-control" />
+            <input value={userDetails.linkedin} onChange={e => setUserDetails({ ...userDetails, linkedin: e.target.value })} type="text" name="" id="" placeholder='USER LINKEDIN PROFILE LINK' className="form-control" />
           </div>
           <div className="d-grid w-100">
-            <button className='btn btn-warning'>Update Profile</button>
+            <button onClick={handleUpdateProfile} className='btn btn-warning'>Update Profile</button>
           </div>
         </div>
       </Collapse>

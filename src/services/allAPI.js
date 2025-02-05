@@ -40,3 +40,8 @@ export const updateProjectAPI = async (id, reqBody, reqHeader) => {
 export const removeProjectAPI = async (id, reqHeader) => {
     return await commonAPI("DELETE", `${SERVERURL}/projects/${id}/remove`, {}, reqHeader);
 }
+
+// updateUserAPI called by Profile component when clicked on update button
+export const updateUserAPI = async (reqBody, reqHeader) => {
+    return await commonAPI("PUT", `${SERVERURL}/edit-user`, reqBody, reqHeader);
+}

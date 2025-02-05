@@ -1,8 +1,13 @@
 import React from 'react'
 import { Container, Navbar } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Header = ({ insideDashboard }) => {
+  const navigate = useNavigate()
+  const logout = () => {
+    sessionStorage.clear()
+    navigate('/')    
+  }
   return (
     <Navbar className="border rounded position-fixed w-100 z-3">
       <Container>
@@ -15,7 +20,7 @@ const Header = ({ insideDashboard }) => {
         {
           insideDashboard && 
           <div className='ms-auto'>
-              <button className='btn btn-link'>Logout <i className="fa-solid fa-right-from-bracket ms-1"></i></button>
+              <button onClick={logout} className='btn btn-link'>Logout <i className="fa-solid fa-right-from-bracket ms-1"></i></button>
           </div>
         }
       </Container>
