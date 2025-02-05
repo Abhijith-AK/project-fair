@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Collapse from 'react-bootstrap/Collapse';
 import profileImg from '../assets/profileImg.jpg'
+import SERVERURL from '../services/serverURL';
 
 const Profile = () => {
   const [preview, setPreview] = useState("")
@@ -13,10 +14,18 @@ const Profile = () => {
   useEffect(() => {
     const user = JSON.parse(sessionStorage.getItem("user"));
     setUserDetails({
-      ...userDetails,username:user.username,email:user.email,password:user.password,github:user.github,linkedin:user.linkedin
+      ...userDetails, username: user.username, email: user.email, password: user.password, github: user.github, linkedin: user.linkedin
     })
     setExistingProfile(user.profilepic)
   }, [open]);
+
+  useEffect(() => {
+    if (userDetails.profilepic) {
+      setPreview(URL.createObjectURL(userDetails.profilepic))
+    } else {
+      setPreview("")
+    }
+  }, [userDetails.profilepic]);
 
   return (
     <>
@@ -27,8 +36,13 @@ const Profile = () => {
       <Collapse in={open}>
         <div id="example-collapse-text" className='row container-fluid align-items-center justify-content-center shadow p-2 rounded'>
           <label className='text-center'>
-            <input type="file" style={{ display: "none" }} />
-            <img height={'150px'} width={'150px'} className='rounded-circle' src={profileImg} alt="" />
+            <input onChange={e=>setUserDetails({...userDetails, profilepic: e.target.files[0]})} type="file" style={{ display: "none" }} />
+            {
+              existingProfile == "" ?
+                <img height={'150px'} width={'150px'} className='rounded-circle' src={preview ? preview : profileImg} alt="" />
+                :
+                <img height={'150px'} width={'150px'} className='rounded-circle' src={preview ? preview : `${SERVERURL}/uploads/${existingProfile}`} alt="" />
+            }
           </label>
           <div className="mb-2 w-100">
             <input type="text" name="" id="" placeholder='USER GITHUB PROFILE LINK' className="form-control" />
