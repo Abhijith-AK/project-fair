@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import loginImg from '../assets/loginImg.png'
 import { FloatingLabel, Form, Spinner } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import { loginAPI, registerAPI } from '../services/allAPI'
+import { tokenAuthContext } from '../contexts/AuthContextAPI'
 
 const Auth = ({ insideRegister }) => {
+  const { isAuthorised, setIsAuthorised } = useContext(tokenAuthContext);
   const navigate = useNavigate()
   const [inputData, setInputData] = useState({
     username: "", email: "", password: ""
@@ -52,6 +54,7 @@ const Auth = ({ insideRegister }) => {
         if (result.status == 200) {
           sessionStorage.setItem("user", JSON.stringify(result.data.user))
           sessionStorage.setItem("token", result.data.token)
+          setIsAuthorised(true)
           setIsLogin(true)
           setTimeout(() => {
             setInputData({

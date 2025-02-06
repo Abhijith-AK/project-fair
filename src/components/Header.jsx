@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Container, Navbar } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
+import { tokenAuthContext } from '../contexts/AuthContextAPI'
 
 const Header = ({ insideDashboard }) => {
+  const {isAuthorised, setIsAuthorised} = useContext(tokenAuthContext)
   const navigate = useNavigate()
   const logout = () => {
     sessionStorage.clear()
+    setIsAuthorised(false)
     navigate('/')    
   }
   return (
